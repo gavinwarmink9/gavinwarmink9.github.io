@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add a new pet to the Lethbridge Pet Adoption database.">
+    <title>Admin - Add Pet | Lethbridge Pet Adoption</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-section {
+            padding: 4rem 0 6rem;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <h1>Lethbridge <span class="accent-text">Pet Adoption</span></h1>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Available Pets</a>
+                <a href="admin.html" class="nav-link active btn btn-primary">Add a Pet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="coulee-bg"></div>
+        <section class="admin-section container">
+            <div class="form-container glass-panel">
+                <div class="section-header">
+                    <h2><span class="accent-text">Rescue</span> a New Friend</h2>
+                    <p>Enter the details below to add a new pet to our database.</p>
+                </div>
+
+                <form id="add-pet-form" class="pet-form">
+                    <div class="form-group">
+                        <label for="pet-name">Pet's Name</label>
+                        <input type="text" id="pet-name" name="name" required placeholder="e.g. Buster">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pet-species">Species</label>
+                            <select id="pet-species" name="species" required>
+                                <option value="" disabled selected>Select species</option>
+                                <option value="Dog">Dog</option>
+                                <option value="Cat">Cat</option>
+                                <option value="Bird">Bird</option>
+                                <option value="Small Pet">Small Pet</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pet-age">Age / Age Range</label>
+                            <input type="text" id="pet-age" name="age" required placeholder="e.g. 2 years">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-breed">Breed / Type</label>
+                        <input type="text" id="pet-breed" name="breed" required placeholder="e.g. Golden Retriever Mix">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-image">Image URL</label>
+                        <input type="url" id="pet-image" name="image" required placeholder="https://example.com/image.jpg">
+                        <small class="form-hint">Provide a valid image link for the pet profile.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet-description">Description</label>
+                        <textarea id="pet-description" name="description" rows="4" required placeholder="Tell us about the pet's personality, favorite spots in Lethbridge, etc."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">
+                        <span>Save Pet Profile</span>
+                        <div class="btn-hover-effect"></div>
+                    </button>
+                    
+                    <div id="form-message" class="form-message hidden">
+                        ✅ Success! The pet has been added to the directory.
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Lethbridge Pet Adoption. Built with ❤️ in the windy city.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp('admin');
+        });
+    </script>
+</body>
+</html>

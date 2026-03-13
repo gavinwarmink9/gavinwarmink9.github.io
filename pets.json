@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "Buster",
+    "species": "Dog",
+    "breed": "Golden Retriever Mix",
+    "age": "3 years",
+    "description": "Loves running in the coulees and swimming in the Oldman River! Very friendly and energetic.",
+    "image": "images/buster.webp"
+  },
+  {
+    "id": "2",
+    "name": "Midnight",
+    "species": "Cat",
+    "breed": "Domestic Shorthair",
+    "age": "2 years",
+    "description": "A sweet, cuddly panther who is unfazed by the Lethbridge wind. Always looking for a warm lap.",
+    "image": "images/midnight.webp"
+  },
+  {
+    "id": "3",
+    "name": "Barnaby",
+    "species": "Dog",
+    "breed": "Terrier Mix",
+    "age": "1 year",
+    "description": "A scrappy little guy who loves a good walk across the High Level Bridge. Great with kids!",
+    "image": "images/barnaby.webp"
+  }
+]

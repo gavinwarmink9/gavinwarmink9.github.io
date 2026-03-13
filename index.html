@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Adopt your new best friend from the Lethbridge Pet Adoption Center.">
+    <title>Lethbridge Pet Adoption | Find Your Forever Friend</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bridge-loader"></div>
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <h1>Lethbridge <span class="accent-text">Pet Adoption</span></h1>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active">Available Pets</a>
+                <a href="admin.html" class="nav-link btn btn-primary">Add a Pet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="wind-effect">
+                <div class="wind-line one"></div>
+                <div class="wind-line two"></div>
+                <div class="wind-line three"></div>
+            </div>
+            <div class="container hero-content">
+                <h2>Brave the wind.<br>Cuddle a friend.</h2>
+                <p>Welcome to southern Alberta's most vibrant pet adoption community. 
+                Whether you live by the coulees or near the High Level Bridge, we have 
+                the perfect companion waiting for you.</p>
+            </div>
+        </section>
+
+        <section class="pets-section container">
+            <div class="section-header">
+                <h2>Waiting for a <span class="accent-text">Home</span></h2>
+                <div class="bridge-divider"></div>
+            </div>
+            <div id="pets-grid" class="pets-grid">
+                <!-- Pets will be injected here via JavaScript -->
+                <div class="loading">Loading our furry friends...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Lethbridge Pet Adoption. Built with ❤️ in the windy city.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp('index');
+            
+            // Remove loader
+            setTimeout(() => {
+                const loader = document.querySelector('.bridge-loader');
+                if(loader) loader.style.display = 'none';
+            }, 800);
+        });
+    </script>
+</body>
+</html>
