@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'lethbridge_pets_data_v2';
+const STORAGE_KEY = 'lethbridge_pets_data_v3';
 const ADMIN_PASS = 'lethbridge2026';
 
 /**
