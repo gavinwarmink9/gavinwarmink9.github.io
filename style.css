@@ -5,16 +5,16 @@
 */
 
 :root {
-    --color-bridge: #2B2E33;
-    --color-bridge-light: #3D4148;
-    --color-coulee-green: #688e5d;
-    --color-coulee-light: #E8F0E5;
-    --color-sunburst: #F9A03F;
-    --color-windy-blue: #A2D5F2;
-    --color-bg: #FAFAFA;
-    --color-surface: #FFFFFF;
-    --color-text: #333333;
-    --color-text-muted: #666666;
+    --color-bridge: #000000;
+    --color-bridge-light: #1A1A1A;
+    --color-coulee-green: #1E5631;
+    --color-coulee-light: #E8F5E9;
+    --color-sunburst: #4CAF50;
+    --color-windy-blue: #A5D6A7;
+    --color-bg: #FFFFFF;
+    --color-surface: #FAFAFA;
+    --color-text: #000000;
+    --color-text-muted: #555555;
     
     --radius-sm: 8px;
     --radius-md: 16px;
@@ -146,13 +146,13 @@ h1, h2, h3, h4, h5 {
 .btn-primary {
     background-color: var(--color-sunburst);
     color: white !important;
-    box-shadow: 0 4px 12px rgba(249, 160, 63, 0.3);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(249, 160, 63, 0.4);
-    background-color: #fcae5a;
+    box-shadow: 0 8px 16px rgba(76, 175, 80, 0.4);
+    background-color: #388E3C;
 }
 
 /* Hero Section */
@@ -196,7 +196,7 @@ h1, h2, h3, h4, h5 {
 .wind-line {
     position: absolute;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(162, 213, 242, 0.8), transparent);
+    background: linear-gradient(90deg, transparent, rgba(165, 214, 167, 0.8), transparent);
     width: 200px;
     border-radius: 50%;
     animation: blow-wind 8s infinite linear;
@@ -435,7 +435,7 @@ h1, h2, h3, h4, h5 {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--color-sunburst);
-    box-shadow: 0 0 0 4px rgba(249, 160, 63, 0.1);
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
 }
 
 .form-hint {
