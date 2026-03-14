@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
     <div class="bridge-loader"></div>
@@ -59,7 +59,31 @@
         </div>
     </footer>
 
-    <script src="app.js?v=4.0"></script>
+    <!-- Pet Detail Modal -->
+    <div id="pet-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img id="modal-pet-image" src="" alt="" class="modal-image">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modal-pet-name"></h2>
+                    <p class="modal-meta">
+                        <span id="modal-pet-breed"></span> &nbsp;|&nbsp; 
+                        <span id="modal-pet-age"></span>
+                    </p>
+                    <div class="modal-desc">
+                        <h3>About Me</h3>
+                        <p id="modal-pet-desc"></p>
+                    </div>
+                    <button class="btn btn-primary close-modal-btn" onclick="closeModal()">Back to Friends</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=5.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             initApp('index');

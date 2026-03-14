@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'lethbridge_pets_data_v3';
+const STORAGE_KEY = 'lethbridge_pets_data_v4';
 const ADMIN_PASS = 'lethbridge2026';
 
 /**
@@ -208,7 +208,8 @@ function createPetCard(pet, isAdmin) {
             </div>
             <div class="pet-meta">${pet.breed}</div>
             ${isAdmin ? 
-                `<p class="pet-desc admin-only-desc">${pet.description}</p><button class="btn btn-delete" style="background-color: #ff5252; color: white; width: 100%;" onclick="removePet('${pet.id}')">Remove Pet</button>` : 
+                `<p class="pet-desc admin-only-desc">${pet.description}</p>
+                 <button class="btn btn-delete" style="background-color: #ff5252; color: white; width: 100%;" onclick="removePet('${pet.id}')">Remove Pet</button>` : 
                 `<button class="pet-action" onclick="openPetModal('${pet.id}')">Meet ${pet.name}</button>`
             }
         </div>
@@ -219,51 +220,36 @@ function createPetCard(pet, isAdmin) {
 /**
  * Show Pet Modal
  */
+/**
+ * Show Pet Modal
+ */
 async function openPetModal(id) {
     const pets = await loadPets();
     const pet = pets.find(p => p.id === id);
     if (!pet) return;
 
-    let modal = document.getElementById('pet-modal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'pet-modal';
-        modal.className = 'modal-overlay';
-        document.body.appendChild(modal);
-        
-        // Close when clicking outside
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) closeModal();
-        });
-    }
+    const modal = document.getElementById('pet-modal');
+    if (!modal) return;
 
-    const speciesIcon = pet.species.toLowerCase() === 'cat' ? '🐈' : 
-                        pet.species.toLowerCase() === 'dog' ? '🐕' : '🐾';
-    const imgUrl = pet.image || 'https://via.placeholder.com/400x300?text=No+Photo+Available';
+    // Fill modal data
+    document.getElementById('modal-pet-name').textContent = pet.name;
+    document.getElementById('modal-pet-image').src = pet.image || 'https://via.placeholder.com/800x600?text=No+Photo';
+    document.getElementById('modal-pet-image').alt = pet.name;
+    document.getElementById('modal-pet-breed').textContent = pet.breed;
+    document.getElementById('modal-pet-age').textContent = pet.age;
+    document.getElementById('modal-pet-desc').textContent = pet.description;
 
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="modal-body">
-                <img src="${imgUrl}" alt="${pet.name}" class="modal-image">
-                <div class="modal-info">
-                    <h2>${pet.name} <span class="pet-species">${speciesIcon}</span></h2>
-                    <p class="modal-meta"><strong>Breed:</strong> ${pet.breed} &nbsp;|&nbsp; <strong>Age:</strong> ${pet.age}</p>
-                    <div class="modal-desc">
-                        <h3>About ${pet.name}</h3>
-                        <p>${pet.description}</p>
-                    </div>
-                    <button class="btn btn-primary" style="width:100%; margin-top:1.5rem;" onclick="closeModal()">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Slight delay to allow display:flex to apply before adding opacity class for animation
+    // Show modal
     modal.style.display = 'flex';
     setTimeout(() => {
         modal.classList.add('modal-visible');
+        document.body.style.overflow = 'hidden'; // Prevent scroll
     }, 10);
+    
+    // Close on overlay click
+    modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+    };
 }
 
 /**
@@ -273,9 +259,10 @@ function closeModal() {
     const modal = document.getElementById('pet-modal');
     if (modal) {
         modal.classList.remove('modal-visible');
+        document.body.style.overflow = ''; // Restore scroll
         setTimeout(() => {
             modal.style.display = 'none';
-        }, 300); // Wait for transition
+        }, 400);
     }
 }
 
