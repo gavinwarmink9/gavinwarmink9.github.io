@@ -267,6 +267,37 @@ function closeModal() {
 }
 
 /**
+ * Show Adoption Contact Modal
+ */
+function openAdoptionModal() {
+    const modal = document.getElementById('adoption-modal');
+    if (!modal) return;
+
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('modal-visible');
+    }, 10);
+
+    // Close on overlay click
+    modal.onclick = (e) => {
+        if (e.target === modal) closeAdoptionModal();
+    };
+}
+
+/**
+ * Close Adoption Contact Modal
+ */
+function closeAdoptionModal() {
+    const modal = document.getElementById('adoption-modal');
+    if (modal) {
+        modal.classList.remove('modal-visible');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 400);
+    }
+}
+
+/**
  * Remove a pet from the list
  */
 async function removePet(id) {

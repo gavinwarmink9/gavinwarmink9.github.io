@@ -699,3 +699,59 @@ h1, h2, h3, h4, h5 {
     font-size: 0.85rem;
     margin-bottom: 1rem;
 }
+
+/* Contact Modal Styles */
+.contact-modal {
+    max-width: 500px;
+}
+
+.contact-info {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.contact-details {
+    margin: 2rem 0;
+    text-align: left;
+    background: #fdfdfd;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid #f0f0f0;
+}
+
+.contact-details p {
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.info-icon {
+    font-size: 1.2rem;
+}
+
+.info-item p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.contact-details a {
+    color: var(--color-sunburst);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.contact-details a:hover {
+    text-decoration: underline;
+}
+
+.adopt-now-btn {
+    background-color: var(--color-sunburst);
+    color: white;
+    margin-top: 1.5rem;
+}
+
