@@ -207,14 +207,76 @@ function createPetCard(pet, isAdmin) {
                 <span class="pet-species" title="${pet.species}">${speciesIcon}</span>
             </div>
             <div class="pet-meta">${pet.breed}</div>
-            <p class="pet-desc">${pet.description}</p>
             ${isAdmin ? 
-                `<button class="btn btn-delete" style="background-color: #ff5252; color: white; width: 100%;" onclick="removePet('${pet.id}')">Remove Pet</button>` : 
-                `<button class="pet-action">Meet ${pet.name}</button>`
+                `<p class="pet-desc admin-only-desc">${pet.description}</p><button class="btn btn-delete" style="background-color: #ff5252; color: white; width: 100%;" onclick="removePet('${pet.id}')">Remove Pet</button>` : 
+                `<button class="pet-action" onclick="openPetModal('${pet.id}')">Meet ${pet.name}</button>`
             }
         </div>
     `;
     return petEl;
+}
+
+/**
+ * Show Pet Modal
+ */
+async function openPetModal(id) {
+    const pets = await loadPets();
+    const pet = pets.find(p => p.id === id);
+    if (!pet) return;
+
+    let modal = document.getElementById('pet-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'pet-modal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
+        
+        // Close when clicking outside
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+    }
+
+    const speciesIcon = pet.species.toLowerCase() === 'cat' ? '🐈' : 
+                        pet.species.toLowerCase() === 'dog' ? '🐕' : '🐾';
+    const imgUrl = pet.image || 'https://via.placeholder.com/400x300?text=No+Photo+Available';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body">
+                <img src="${imgUrl}" alt="${pet.name}" class="modal-image">
+                <div class="modal-info">
+                    <h2>${pet.name} <span class="pet-species">${speciesIcon}</span></h2>
+                    <p class="modal-meta"><strong>Breed:</strong> ${pet.breed} &nbsp;|&nbsp; <strong>Age:</strong> ${pet.age}</p>
+                    <div class="modal-desc">
+                        <h3>About ${pet.name}</h3>
+                        <p>${pet.description}</p>
+                    </div>
+                    <button class="btn btn-primary" style="width:100%; margin-top:1.5rem;" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Slight delay to allow display:flex to apply before adding opacity class for animation
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('modal-visible');
+    }, 10);
+}
+
+/**
+ * Close Pet Modal
+ */
+function closeModal() {
+    const modal = document.getElementById('pet-modal');
+    if (modal) {
+        modal.classList.remove('modal-visible');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300); // Wait for transition
+    }
 }
 
 /**
