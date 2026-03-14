@@ -48,6 +48,99 @@ async function refreshAdminPets() {
     renderAdminPets(data);
 }
 
+const DEFAULT_PETS = [
+  {
+    "id": "1",
+    "name": "Cinder",
+    "species": "Dog",
+    "breed": "Heeler mix",
+    "age": "Adult",
+    "description": "Cinder is a working dog who needs someone experienced with heelers. She is loyal to one or two people and requires firm, consistent training.",
+    "image": "images/cinder.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Ryder",
+    "species": "Dog",
+    "breed": "Large breed",
+    "age": "Adult",
+    "description": "Ryder is a big, beautiful boy who drools and needs plenty of activity. He is looking for a home with teens or adults.",
+    "image": "images/ryder.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Finnley",
+    "species": "Dog",
+    "breed": "Unknown",
+    "age": "Adult",
+    "description": "Finnley is a sweet, active girl who loves daily jogs and is not a 'sit around' sort of dog.",
+    "image": "images/finnley.jpg"
+  },
+  {
+    "id": "4",
+    "name": "Odin",
+    "species": "Dog",
+    "breed": "Lanky/Silly Puppy",
+    "age": "Tween years",
+    "description": "Odin is a silly, lanky young dog who loves to run and wag his tail. He needs basic obedience training.",
+    "image": "images/odin.jpg"
+  },
+  {
+    "id": "5",
+    "name": "Axel",
+    "species": "Dog",
+    "breed": "Bullheaded breed mix",
+    "age": "Adult",
+    "description": "Axel is headstrong and takes life in stride. He has some training and is looking for a home experienced with bullheaded breeds.",
+    "image": "images/axel.jpg"
+  },
+  {
+    "id": "6",
+    "name": "Tahoe",
+    "species": "Cat",
+    "breed": "Unknown",
+    "age": "Adult",
+    "description": "Tahoe is a talkative and bossy boy who lands his jumps like an elephant and sweet-talks for attention.",
+    "image": "images/tahoe.jpg"
+  },
+  {
+    "id": "7",
+    "name": "Jingles",
+    "species": "Cat",
+    "breed": "Unknown",
+    "age": "Adult",
+    "description": "Jingles is a quiet cat who likes to find her own spot with a good toy. She prefers a house without other cats.",
+    "image": "images/jingles.jpg"
+  },
+  {
+    "id": "8",
+    "name": "Tabitha",
+    "species": "Cat",
+    "breed": "Unknown",
+    "age": "Senior",
+    "description": "Tabitha is a shy girl who loves ribbons and a quiet home. She is described as the reincarnation of a sweet great grandmother.",
+    "image": "images/tabitha.jpg"
+  },
+  {
+    "id": "9",
+    "name": "Sonny",
+    "species": "Cat",
+    "breed": "Unknown",
+    "age": "Adult",
+    "description": "Sonny is a character who wants to be the center of your world. He is affectionate and prefers to be an only pet.",
+    "image": "images/sonny.jpg"
+  },
+  {
+    "id": "10",
+    "name": "Quinn",
+    "species": "Cat",
+    "breed": "Unknown",
+    "age": "Adult",
+    "description": "Quinn is a beautiful girl with unique markings. She is active, loves toy-rescuing, and has a playful 'fly-by' sense of humor.",
+    "image": "images/quinn.jpg"
+  }
+];
+
 /**
  * Fetch or load pets from storage
  */
@@ -55,16 +148,9 @@ async function loadPets() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return JSON.parse(stored);
 
-    try {
-        const response = await fetch('pets.json');
-        if (!response.ok) throw new Error('Could not fetch initial pets');
-        const data = await response.json();
-        saveToStorage(data);
-        return data;
-    } catch (error) {
-        console.error("Error loading pets:", error);
-        return [];
-    }
+    // If no storage is found, fallback to the DEFAULT_PETS array, avoiding the need for network fetch!
+    saveToStorage(DEFAULT_PETS);
+    return DEFAULT_PETS;
 }
 
 /**
