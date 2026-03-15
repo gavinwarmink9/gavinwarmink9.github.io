@@ -252,9 +252,9 @@ h1, h2, h3, h4, h5 {
 
 .pets-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 /* Sidebar Filter Layout - Compact Refinement */
@@ -333,6 +333,7 @@ h1, h2, h3, h4, h5 {
 
 .pets-main {
     flex-grow: 1;
+    min-width: 0; /* Critical for flex grid containers */
 }
 
 .btn-clear {
