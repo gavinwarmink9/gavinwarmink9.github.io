@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'lethbridge_pets_data_v7';
+const STORAGE_KEY = 'lethbridge_pets_data_v9';
 const ADMIN_PASS = 'lethbridge2026';
 
 /**
@@ -272,6 +272,13 @@ function closeModal() {
 function openAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
     if (!modal) return;
+
+    // Personalize title with current pet name
+    const petName = document.getElementById('modal-pet-name').textContent;
+    const title = document.getElementById('adoption-modal-title');
+    if (title) {
+        title.innerHTML = `Adopt <span class="accent-text">${petName}</span>`;
+    }
 
     modal.style.display = 'flex';
     setTimeout(() => {

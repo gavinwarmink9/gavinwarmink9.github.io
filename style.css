@@ -676,7 +676,7 @@ h1, h2, h3, h4, h5 {
 .modal-actions .btn {
     flex: 1 1 0;
     width: 0;
-    height: 54px;
+    height: 52px; /* Set a specific height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -684,6 +684,14 @@ h1, h2, h3, h4, h5 {
     border-radius: var(--radius-md);
     font-size: 1.1rem;
     white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    transform: none !important; /* Force no jumping on hover */
+    box-shadow: none !important; /* Force no shadow offsets */
+}
+
+.modal-actions .btn-primary {
+    border: 2px solid transparent; /* Match the border thickness of the outline btn */
 }
 
 .modal-actions .btn-outline {
