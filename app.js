@@ -190,27 +190,41 @@ const DEFAULT_PETS = [
 function setupFilters(allPets) {
     const filters = ['filter-age', 'filter-breed', 'filter-size', 'filter-energy', 'filter-animals', 'filter-children'];
     const clearBtn = document.getElementById('clear-filters');
+    const toggleBtn = document.getElementById('toggle-filters');
+    const dropdown = document.getElementById('filters-dropdown');
     
-    if (!clearBtn) return;
+    if (!toggleBtn || !dropdown) return;
+
+    // Toggle dropdown
+    toggleBtn.addEventListener('click', () => {
+        dropdown.classList.toggle('active');
+        toggleBtn.classList.toggle('active');
+    });
 
     filters.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
             const eventType = el.tagName === 'INPUT' ? 'input' : 'change';
-            el.addEventListener(eventType, () => applyFilters(allPets));
+            el.addEventListener(eventType, () => {
+                applyFilters(allPets);
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            });
         }
     });
 
-    clearBtn.addEventListener('click', () => {
-        filters.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                if (el.tagName === 'INPUT') el.value = '';
-                else el.value = 'all';
-            }
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            filters.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.tagName === 'INPUT') el.value = '';
+                    else el.value = 'all';
+                }
+            });
+            clearBtn.classList.add('hidden');
+            renderPets(allPets);
         });
-        renderPets(allPets);
-    });
+    }
 }
 
 /**
