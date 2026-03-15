@@ -274,7 +274,9 @@ function openAdoptionModal() {
     if (!modal) return;
 
     // Personalize title with current pet name
-    const petName = document.getElementById('modal-pet-name').textContent;
+    let petName = document.getElementById('modal-pet-name').textContent || 'this friend';
+    petName = petName.trim();
+    
     const title = document.getElementById('adoption-modal-title');
     if (title) {
         title.innerHTML = `Adopt <span class="accent-text">${petName}</span>`;
