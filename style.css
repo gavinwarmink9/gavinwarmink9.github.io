@@ -790,3 +790,26 @@ h1, h2, h3, h4, h5 {
     color: white;
 }
 
+/* Decorative Paw Prints */
+.paw-print {
+    position: absolute;
+    font-size: 2.5rem;
+    color: var(--color-bridge);
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    filter: grayscale(1);
+}
+
+.paw-1 { top: 15%; left: 10%; transform: rotate(-15deg); }
+.paw-2 { top: 70%; left: 85%; transform: rotate(20deg); font-size: 2rem; }
+.paw-3 { top: 40%; left: 5%; transform: rotate(45deg); font-size: 1.8rem; }
+.paw-4 { bottom: 10%; left: 15%; transform: rotate(-30deg); font-size: 3rem; }
+.paw-5 { top: 20%; right: 10%; transform: rotate(10deg); font-size: 2.22rem; }
+.paw-6 { bottom: 25%; right: 5%; transform: rotate(-40deg); font-size: 1.5rem; }
+
+section {
+    position: relative; /* Ensure children can be absolute */
+}
+
