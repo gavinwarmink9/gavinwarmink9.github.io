@@ -215,6 +215,18 @@ function setupFilters(allPets) {
             renderPets(allPets);
         });
     }
+
+    // Sidebar Toggle Logic
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    const layout = document.querySelector('.sidebar-layout');
+    
+    if (toggleBtn && layout) {
+        toggleBtn.addEventListener('click', () => {
+            layout.classList.toggle('sidebar-collapsed');
+            const isCollapsed = layout.classList.contains('sidebar-collapsed');
+            toggleBtn.querySelector('.btn-text').textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
+        });
+    }
 }
 
 /**

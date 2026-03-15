@@ -334,17 +334,54 @@ h1, h2, h3, h4, h5 {
 .pets-main {
     flex-grow: 1;
     min-width: 0; /* Critical for flex grid containers */
+    transition: var(--transition);
 }
 
-.btn-clear {
-    background: transparent;
-    border: none;
-    color: #ff5252;
-    font-weight: 700;
-    font-size: 0.75rem;
+/* Sidebar Toggle Improvements */
+.main-controls {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+}
+
+.btn-toggle-sidebar {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
     cursor: pointer;
-    text-decoration: none;
     transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-toggle-sidebar:hover {
+    background: #f8fafc;
+    border-color: var(--color-bridge-light);
+    color: var(--color-bridge);
+}
+
+.sidebar-icon {
+    font-size: 1.1rem;
+}
+
+/* Collapsed State */
+.sidebar-layout.sidebar-collapsed .filters-sidebar {
+    display: none;
+}
+
+.sidebar-layout.sidebar-collapsed .sidebar-layout {
+    gap: 0;
+}
+
+.sidebar-layout.sidebar-collapsed {
+    gap: 0;
 }
 
 .btn-clear:hover {
