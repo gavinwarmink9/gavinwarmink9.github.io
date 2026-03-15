@@ -46,11 +46,68 @@
             <div class="paw-print paw-3">🐾</div>
         </section>
 
-        <section class="pets-section container">
             <div class="section-header">
                 <h2>Waiting for a <span class="accent-text">Home</span></h2>
                 <div class="bridge-divider"></div>
             </div>
+
+            <!-- Filter Bar -->
+            <div class="filters-container">
+                <div class="filter-header">
+                    <h3><span class="accent-text">Filter</span> Your Search</h3>
+                    <button id="clear-filters" class="btn-clear">Clear All</button>
+                </div>
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label for="filter-age">Age Category</label>
+                        <select id="filter-age">
+                            <option value="all">All Ages</option>
+                            <option value="Puppy/Kitten">Puppy / Kitten</option>
+                            <option value="Adult">Adult</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-breed">Breed Search</label>
+                        <input type="text" id="filter-breed" placeholder="e.g. Heeler">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-size">Size</label>
+                        <select id="filter-size">
+                            <option value="all">Any Size</option>
+                            <option value="Small">Small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-energy">Energy Level</label>
+                        <select id="filter-energy">
+                            <option value="all">Any Energy</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-animals">Other Animals?</label>
+                        <select id="filter-animals">
+                            <option value="all">Doesn't Matter</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-children">Good with Children?</label>
+                        <select id="filter-children">
+                            <option value="all">Doesn't Matter</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div id="pets-grid" class="pets-grid">
                 <!-- Pets will be injected here via JavaScript -->
                 <div class="loading">Loading our furry friends...</div>

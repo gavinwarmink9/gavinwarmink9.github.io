@@ -6,7 +6,10 @@ const ADMIN_PASS = 'lethbridge2026';
  */
 function initApp(page) {
     if (page === 'index') {
-        loadPets().then(data => renderPets(data));
+        loadPets().then(data => {
+            renderPets(data);
+            setupFilters(data);
+        });
     } else if (page === 'admin') {
         setupAdmin();
     }
@@ -55,6 +58,10 @@ const DEFAULT_PETS = [
     "species": "Dog",
     "breed": "Heeler mix",
     "age": "Adult",
+    "size": "Medium",
+    "energy": "High",
+    "goodWithAnimals": "No",
+    "goodWithChildren": "Yes",
     "description": "Cinder is a working dog who needs someone experienced with heelers. She is loyal to one or two people and requires firm, consistent training.",
     "image": "images/cinder.jpg"
   },
@@ -64,6 +71,10 @@ const DEFAULT_PETS = [
     "species": "Dog",
     "breed": "Large breed",
     "age": "Adult",
+    "size": "Large",
+    "energy": "Medium",
+    "goodWithAnimals": "Yes",
+    "goodWithChildren": "Yes",
     "description": "Ryder is a big, beautiful boy who drools and needs plenty of activity. He is looking for a home with teens or adults.",
     "image": "images/ryder.jpg"
   },
@@ -73,6 +84,10 @@ const DEFAULT_PETS = [
     "species": "Dog",
     "breed": "Unknown",
     "age": "Adult",
+    "size": "Medium",
+    "energy": "High",
+    "goodWithAnimals": "Yes",
+    "goodWithChildren": "Yes",
     "description": "Finnley is a sweet, active girl who loves daily jogs and is not a 'sit around' sort of dog.",
     "image": "images/finnley.jpg"
   },
@@ -82,6 +97,10 @@ const DEFAULT_PETS = [
     "species": "Dog",
     "breed": "Lanky/Silly Puppy",
     "age": "Tween years",
+    "size": "Large",
+    "energy": "High",
+    "goodWithAnimals": "Yes",
+    "goodWithChildren": "Yes",
     "description": "Odin is a silly, lanky young dog who loves to run and wag his tail. He needs basic obedience training.",
     "image": "images/odin.jpg"
   },
@@ -91,6 +110,10 @@ const DEFAULT_PETS = [
     "species": "Dog",
     "breed": "Bullheaded breed mix",
     "age": "Adult",
+    "size": "Large",
+    "energy": "Medium",
+    "goodWithAnimals": "No",
+    "goodWithChildren": "No",
     "description": "Axel is headstrong and takes life in stride. He has some training and is looking for a home experienced with bullheaded breeds.",
     "image": "images/axel.jpg"
   },
@@ -100,6 +123,10 @@ const DEFAULT_PETS = [
     "species": "Cat",
     "breed": "Unknown",
     "age": "Adult",
+    "size": "Small",
+    "energy": "Medium",
+    "goodWithAnimals": "No",
+    "goodWithChildren": "Yes",
     "description": "Tahoe is a talkative and bossy boy who lands his jumps like an elephant and sweet-talks for attention.",
     "image": "images/tahoe.jpg"
   },
@@ -109,6 +136,10 @@ const DEFAULT_PETS = [
     "species": "Cat",
     "breed": "Unknown",
     "age": "Adult",
+    "size": "Small",
+    "energy": "Low",
+    "goodWithAnimals": "No",
+    "goodWithChildren": "No",
     "description": "Jingles is a quiet cat who likes to find her own spot with a good toy. She prefers a house without other cats.",
     "image": "images/jingles.jpg"
   },
@@ -118,6 +149,10 @@ const DEFAULT_PETS = [
     "species": "Cat",
     "breed": "Unknown",
     "age": "Senior",
+    "size": "Small",
+    "energy": "Low",
+    "goodWithAnimals": "Yes",
+    "goodWithChildren": "Yes",
     "description": "Tabitha is a shy girl who loves ribbons and a quiet home. She is described as the reincarnation of a sweet great grandmother.",
     "image": "images/tabitha.jpg"
   },
@@ -127,6 +162,10 @@ const DEFAULT_PETS = [
     "species": "Cat",
     "breed": "Unknown",
     "age": "Adult",
+    "size": "Small",
+    "energy": "Medium",
+    "goodWithAnimals": "No",
+    "goodWithChildren": "No",
     "description": "Sonny is a character who wants to be the center of your world. He is affectionate and prefers to be an only pet.",
     "image": "images/sonny.jpg"
   },
@@ -136,10 +175,68 @@ const DEFAULT_PETS = [
     "species": "Cat",
     "breed": "Unknown",
     "age": "Adult",
+    "size": "Small",
+    "energy": "High",
+    "goodWithAnimals": "Yes",
+    "goodWithChildren": "Yes",
     "description": "Quinn is a beautiful girl with unique markings. She is active, loves toy-rescuing, and has a playful 'fly-by' sense of humor.",
     "image": "images/quinn.jpg"
   }
 ];
+
+/**
+ * Setup Filtering System
+ */
+function setupFilters(allPets) {
+    const filters = ['filter-age', 'filter-breed', 'filter-size', 'filter-energy', 'filter-animals', 'filter-children'];
+    const clearBtn = document.getElementById('clear-filters');
+    
+    if (!clearBtn) return;
+
+    filters.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const eventType = el.tagName === 'INPUT' ? 'input' : 'change';
+            el.addEventListener(eventType, () => applyFilters(allPets));
+        }
+    });
+
+    clearBtn.addEventListener('click', () => {
+        filters.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.tagName === 'INPUT') el.value = '';
+                else el.value = 'all';
+            }
+        });
+        renderPets(allPets);
+    });
+}
+
+/**
+ * Apply Filters to the pet list
+ */
+function applyFilters(allPets) {
+    const age = document.getElementById('filter-age').value.toLowerCase();
+    const breed = document.getElementById('filter-breed').value.toLowerCase();
+    const size = document.getElementById('filter-size').value.toLowerCase();
+    const energy = document.getElementById('filter-energy').value.toLowerCase();
+    const animals = document.getElementById('filter-animals').value.toLowerCase();
+    const children = document.getElementById('filter-children').value.toLowerCase();
+
+    const filtered = allPets.filter(pet => {
+        const matchAge = age === 'all' || pet.age.toLowerCase().includes(age);
+        const matchBreed = breed === '' || pet.breed.toLowerCase().includes(breed) || pet.species.toLowerCase().includes(breed);
+        const matchSize = size === 'all' || pet.size.toLowerCase() === size;
+        const matchEnergy = energy === 'all' || pet.energy.toLowerCase() === energy;
+        const matchAnimals = animals === 'all' || pet.goodWithAnimals.toLowerCase() === animals;
+        const matchChildren = children === 'all' || pet.goodWithChildren.toLowerCase() === children;
+
+        return matchAge && matchBreed && matchSize && matchEnergy && matchAnimals && matchChildren;
+    });
+
+    renderPets(filtered);
+}
 
 /**
  * Fetch or load pets from storage
@@ -238,6 +335,40 @@ async function openPetModal(id) {
     document.getElementById('modal-pet-breed').textContent = pet.breed;
     document.getElementById('modal-pet-age').textContent = pet.age;
     document.getElementById('modal-pet-desc').textContent = pet.description;
+
+    // Additional info for modal
+    const metaContainer = document.querySelector('.modal-meta');
+    if (metaContainer) {
+        metaContainer.innerHTML = `
+            <span>${pet.breed}</span> &nbsp;|&nbsp; 
+            <span>${pet.age}</span> &nbsp;|&nbsp; 
+            <span>${pet.size} Size</span>
+        `;
+    }
+
+    // Add stats section if it doesn't exist
+    let statsSection = document.getElementById('modal-stats');
+    if (!statsSection) {
+        statsSection = document.createElement('div');
+        statsSection.id = 'modal-stats';
+        statsSection.className = 'modal-stats';
+        document.querySelector('.modal-desc').before(statsSection);
+    }
+
+    statsSection.innerHTML = `
+        <div class="stat-item">
+            <span class="stat-label">Energy</span>
+            <span class="stat-value">${pet.energy}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Other Pets</span>
+            <span class="stat-value">${pet.goodWithAnimals === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Children</span>
+            <span class="stat-value">${pet.goodWithChildren === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
+        </div>
+    `;
 
     // Show modal
     modal.style.display = 'flex';
@@ -344,6 +475,10 @@ function setupForm() {
             species: formData.get('species'),
             age: formData.get('age'),
             breed: formData.get('breed'),
+            size: formData.get('size'),
+            energy: formData.get('energy'),
+            goodWithAnimals: formData.get('goodWithAnimals'),
+            goodWithChildren: formData.get('goodWithChildren'),
             image: formData.get('image'),
             description: formData.get('description')
         };

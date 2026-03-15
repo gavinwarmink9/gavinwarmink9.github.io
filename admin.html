@@ -86,15 +86,53 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="pet-breed">Breed / Type</label>
-                            <input type="text" id="pet-breed" name="breed" required placeholder="e.g. Golden Retriever Mix">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pet-breed">Breed / Type</label>
+                                <input type="text" id="pet-breed" name="breed" required placeholder="e.g. Heeler Mix">
+                            </div>
+                            <div class="form-group">
+                                <label for="pet-size">Size</label>
+                                <select id="pet-size" name="size" required>
+                                    <option value="" disabled selected>Select size</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="pet-image">Image URL</label>
-                            <input type="url" id="pet-image" name="image" required placeholder="https://example.com/image.jpg">
-                            <small class="form-hint">Provide a valid image link for the pet profile.</small>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pet-energy">Energy Level</label>
+                                <select id="pet-energy" name="energy" required>
+                                    <option value="" disabled selected>Select energy</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pet-image">Image URL</label>
+                                <input type="url" id="pet-image" name="image" required placeholder="https://example.com/image.jpg">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pet-animals">Good with Other Animals?</label>
+                                <select id="pet-animals" name="goodWithAnimals" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pet-children">Good with Children?</label>
+                                <select id="pet-children" name="goodWithChildren" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group">
