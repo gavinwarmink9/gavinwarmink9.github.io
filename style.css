@@ -257,64 +257,43 @@ h1, h2, h3, h4, h5 {
     margin-top: 3rem;
 }
 
-/* Filter Bar Styling - Redesigned to Full Width Dropdown */
-.pets-section {
-    padding: 5rem 0;
+/* Sidebar Filter Layout */
+.sidebar-layout {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
 }
 
-.filter-controls {
+.filters-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
 }
 
-.btn-filter-toggle {
-    background: white;
-    border: 2px solid var(--color-sunburst);
-    color: var(--color-sunburst);
+.sidebar-header h3 {
+    font-size: 1.25rem;
+    color: var(--color-bridge);
+}
+
+.filter-groups-vertical {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    z-index: 50;
-}
-
-.btn-filter-toggle:hover,
-.btn-filter-toggle.active {
-    background: var(--color-sunburst);
-    color: white;
-}
-
-.btn-icon {
-    font-size: 1.1rem;
-}
-
-.filters-dropdown {
-    width: 100%;
-    background: #fdfdfd;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 3rem;
-    box-shadow: inset 0 10px 20px -10px rgba(0,0,0,0.05);
-}
-
-.filters-dropdown.active {
-    max-height: 500px;
-    opacity: 1;
-    padding: 3rem 0;
-}
-
-.filter-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 1.8rem;
 }
 
 .filter-group {
@@ -324,21 +303,21 @@ h1, h2, h3, h4, h5 {
 }
 
 .filter-group label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 800;
-    color: var(--color-bridge-light);
+    color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .filter-group select,
 .filter-group input {
-    padding: 1rem;
-    border: 1px solid #ddd;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #e2e8f0;
     border-radius: var(--radius-sm);
     font-family: inherit;
-    font-size: 1rem;
-    background: white;
+    font-size: 0.95rem;
+    background: #f8fafc;
     transition: var(--transition);
     width: 100%;
 }
@@ -346,30 +325,52 @@ h1, h2, h3, h4, h5 {
 .filter-group select:focus,
 .filter-group input:focus {
     outline: none;
-    border-color: var(--color-windy-blue);
-    box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.1);
+    background: white;
+    border-color: var(--color-sunburst);
+    box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.1);
+}
+
+.pets-main {
+    flex-grow: 1;
 }
 
 .btn-clear {
-    background: #fff0f0;
+    background: transparent;
     border: none;
     color: #ff5252;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
+    text-decoration: underline;
     transition: var(--transition);
 }
 
 .btn-clear:hover {
-    background: #ff5252;
-    color: white;
-    transform: translateY(-2px);
+    color: #d32f2f;
 }
 
 .btn-clear.hidden {
     display: none;
+}
+
+/* Responsive adjustment for sidebar */
+@media (max-width: 1024px) {
+    .sidebar-layout {
+        flex-direction: column;
+    }
+    
+    .filters-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-groups-vertical {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
 }
 
 /* Pet Card */

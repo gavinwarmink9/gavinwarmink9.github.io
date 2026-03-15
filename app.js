@@ -190,17 +190,7 @@ const DEFAULT_PETS = [
 function setupFilters(allPets) {
     const filters = ['filter-age', 'filter-breed', 'filter-size', 'filter-energy', 'filter-animals', 'filter-children'];
     const clearBtn = document.getElementById('clear-filters');
-    const toggleBtn = document.getElementById('toggle-filters');
-    const dropdown = document.getElementById('filters-dropdown');
     
-    if (!toggleBtn || !dropdown) return;
-
-    // Toggle dropdown
-    toggleBtn.addEventListener('click', () => {
-        dropdown.classList.toggle('active');
-        toggleBtn.classList.toggle('active');
-    });
-
     filters.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
