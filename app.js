@@ -6,9 +6,13 @@ const ADMIN_PASS = 'lethbridge2026';
  */
 function initApp(page) {
     if (page === 'index') {
+        setupSidebarToggle();
         loadPets().then(data => {
             renderPets(data);
             setupFilters(data);
+        }).catch(err => {
+            console.error("Failed to load pets:", err);
+            document.getElementById('pets-grid').innerHTML = '<div class="error">Sorry, we couldn\'t load the pets. Please try refreshing!</div>';
         });
     } else if (page === 'admin') {
         setupAdmin();
@@ -216,17 +220,32 @@ function setupFilters(allPets) {
         });
     }
 
-    // Sidebar Toggle Logic
+}
+
+/**
+ * Sidebar Toggle Logic - Separated to ensure it runs even if pet loading is slow
+ */
+function setupSidebarToggle() {
     const toggleBtn = document.getElementById('toggle-sidebar');
     const layout = document.querySelector('.sidebar-layout');
     
-    if (toggleBtn && layout) {
-        toggleBtn.addEventListener('click', () => {
-            layout.classList.toggle('sidebar-collapsed');
-            const isCollapsed = layout.classList.contains('sidebar-collapsed');
-            toggleBtn.querySelector('.btn-text').textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-        });
+    if (!toggleBtn || !layout) {
+        console.warn("Sidebar toggle elements not found:", { toggleBtn, layout });
+        return;
     }
+
+    toggleBtn.addEventListener('click', () => {
+        layout.classList.toggle('sidebar-collapsed');
+        const isCollapsed = layout.classList.contains('sidebar-collapsed');
+        
+        const btnText = toggleBtn.querySelector('.btn-text');
+        if (btnText) {
+            btnText.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
+        }
+        
+        // Force a layout recalculation for the grid
+        window.dispatchEvent(new Event('resize'));
+    });
 }
 
 /**
