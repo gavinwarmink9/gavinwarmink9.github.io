@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn more about Southpaws Rescue and our mission to help shelter pets in Lethbridge.">
+    <title>About Us | Southpaws Rescue</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=14.0">
+</head>
+<body>
+    <div class="bridge-loader"></div>
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <h1>Southpaws <span class="accent-text">Rescue</span></h1>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Available Pets</a>
+                <a href="about.html" class="nav-link active">About Us</a>
+                <a href="admin.html" class="nav-link btn btn-primary">Add a Pet</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="wind-effect">
+                <div class="wind-line one"></div>
+                <div class="wind-line two"></div>
+                <div class="wind-line three"></div>
+            </div>
+            <div class="container hero-content">
+                <h2>About <span class="accent-text">Us</span></h2>
+                <p>Giving Lethbridge Shelter Pets a Second Chance</p>
+            </div>
+        </section>
+
+        <article class="container about-content" style="padding: 5rem 1.5rem; max-width: 800px; margin: 0 auto;">
+            <div class="section-header">
+                <h2>Our <span class="accent-text">Mission</span></h2>
+                <div class="bridge-divider"></div>
+            </div>
+            <div class="about-text" style="font-size: 1.25rem; line-height: 2; color: var(--color-text-muted);">
+                <p style="margin-bottom: 2rem;"><strong>SouthPaws Rescue</strong> partners with local shelters in Lethbridge to help dogs and cats find safe, loving homes. Our goal is to give every shelter pet the visibility and opportunity they deserve to be adopted.</p>
+                <p>We believe that every pet has a story, and sometimes all they need is a little help to reach their next chapter. By showcasing the amazing animals waiting in our local shelters, we hope to connect them with the perfect families right here in southern Alberta.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Southpaws Rescue. Built with ❤️ in the windy city.</p>
+        </div>
+    </footer>
+
+    <script src="app.js?v=15.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Remove loader
+            setTimeout(() => {
+                const loader = document.querySelector('.bridge-loader');
+                if(loader) loader.style.display = 'none';
+            }, 800);
+        });
+    </script>
+</body>
+</html>
