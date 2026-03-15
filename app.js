@@ -233,20 +233,29 @@ function setupFilters(allPets) {
  * Apply Filters to the pet list
  */
 function applyFilters(allPets) {
-    const age = document.getElementById('filter-age').value.toLowerCase();
-    const breed = document.getElementById('filter-breed').value.toLowerCase();
-    const size = document.getElementById('filter-size').value.toLowerCase();
-    const energy = document.getElementById('filter-energy').value.toLowerCase();
-    const animals = document.getElementById('filter-animals').value.toLowerCase();
-    const children = document.getElementById('filter-children').value.toLowerCase();
+    const ageEl = document.getElementById('filter-age');
+    const breedEl = document.getElementById('filter-breed');
+    const sizeEl = document.getElementById('filter-size');
+    const energyEl = document.getElementById('filter-energy');
+    const animalsEl = document.getElementById('filter-animals');
+    const childrenEl = document.getElementById('filter-children');
+
+    if (!ageEl || !breedEl || !sizeEl || !energyEl || !animalsEl || !childrenEl) return;
+
+    const age = ageEl.value.toLowerCase();
+    const breed = breedEl.value.toLowerCase();
+    const size = sizeEl.value.toLowerCase();
+    const energy = energyEl.value.toLowerCase();
+    const animals = animalsEl.value.toLowerCase();
+    const children = childrenEl.value.toLowerCase();
 
     const filtered = allPets.filter(pet => {
-        const matchAge = age === 'all' || pet.age.toLowerCase().includes(age);
-        const matchBreed = breed === '' || pet.breed.toLowerCase().includes(breed) || pet.species.toLowerCase().includes(breed);
-        const matchSize = size === 'all' || pet.size.toLowerCase() === size;
-        const matchEnergy = energy === 'all' || pet.energy.toLowerCase() === energy;
-        const matchAnimals = animals === 'all' || pet.goodWithAnimals.toLowerCase() === animals;
-        const matchChildren = children === 'all' || pet.goodWithChildren.toLowerCase() === children;
+        const matchAge = age === 'all' || (pet.age && pet.age.toLowerCase().includes(age));
+        const matchBreed = breed === '' || (pet.breed && pet.breed.toLowerCase().includes(breed)) || (pet.species && pet.species.toLowerCase().includes(breed));
+        const matchSize = size === 'all' || (pet.size && pet.size.toLowerCase() === size);
+        const matchEnergy = energy === 'all' || (pet.energy && pet.energy.toLowerCase() === energy);
+        const matchAnimals = animals === 'all' || (pet.goodWithAnimals && pet.goodWithAnimals.toLowerCase() === animals);
+        const matchChildren = children === 'all' || (pet.goodWithChildren && pet.goodWithChildren.toLowerCase() === children);
 
         return matchAge && matchBreed && matchSize && matchEnergy && matchAnimals && matchChildren;
     });
