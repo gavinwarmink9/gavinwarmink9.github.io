@@ -7,10 +7,10 @@
 :root {
     --color-bridge: #000000;
     --color-bridge-light: #1A1A1A;
-    --color-coulee-green: #1E5631;
-    --color-coulee-light: #E8F5E9;
-    --color-sunburst: #4CAF50;
-    --color-windy-blue: #A5D6A7;
+    --color-coulee-green: #1B4332;
+    --color-coulee-light: #D8E2DC;
+    --color-sunburst: #2D6A4F;
+    --color-windy-blue: #74C69D;
     --color-bg: #FFFFFF;
     --color-surface: #FAFAFA;
     --color-text: #000000;
@@ -665,10 +665,33 @@ h1, h2, h3, h4, h5 {
     line-height: 1.8;
 }
 
-.close-modal-btn {
+.modal-actions {
+    display: flex;
+    gap: 1rem;
     margin-top: auto;
-    padding: 1rem;
+    padding-top: 1rem;
 }
+
+.modal-actions .btn {
+    flex: 1;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.modal-actions .btn-outline {
+    border: 1px solid #ddd;
+    background: transparent;
+    color: var(--color-text);
+}
+
+.modal-actions .btn-outline:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
 
 /* Resp. Design Updates */
 @media (max-width: 900px) {
