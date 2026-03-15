@@ -229,21 +229,22 @@ function setupSidebarToggle() {
     const toggleBtn = document.getElementById('toggle-sidebar');
     const layout = document.querySelector('.sidebar-layout');
     
-    if (!toggleBtn || !layout) {
-        console.warn("Sidebar toggle elements not found:", { toggleBtn, layout });
-        return;
-    }
+    if (!toggleBtn || !layout) return;
 
+    // Use a clean listener and remove any older ones if they exist (though rare in this setup)
+    toggleBtn.onclick = null; 
+    
     toggleBtn.addEventListener('click', () => {
         layout.classList.toggle('sidebar-collapsed');
         const isCollapsed = layout.classList.contains('sidebar-collapsed');
+        
+        console.log("Sidebar toggled. Collapsed:", isCollapsed);
         
         const btnText = toggleBtn.querySelector('.btn-text');
         if (btnText) {
             btnText.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
         }
         
-        // Force a layout recalculation for the grid
         window.dispatchEvent(new Event('resize'));
     });
 }
