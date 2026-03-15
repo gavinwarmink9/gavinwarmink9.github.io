@@ -192,22 +192,9 @@
         </div>
     </div>
 
-    <script src="app.js?v=17.0"></script>
+    <script src="app.js?v=18.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Immediate toggle setup for speed and reliability
-            const btn = document.getElementById('toggle-sidebar');
-            const layout = document.querySelector('.sidebar-layout');
-            if (btn && layout) {
-                btn.onclick = () => {
-                    layout.classList.toggle('sidebar-collapsed');
-                    const isCollapsed = layout.classList.contains('sidebar-collapsed');
-                    const text = btn.querySelector('.btn-text');
-                    if (text) text.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-                    window.dispatchEvent(new Event('resize'));
-                };
-            }
-
             initApp('index');
             
             // Remove loader
