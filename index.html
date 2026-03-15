@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=6.0">
 </head>
 <body>
     <div class="bridge-loader"></div>
@@ -77,7 +77,10 @@
                         <h3>About Me</h3>
                         <p id="modal-pet-desc"></p>
                     </div>
-                    <button class="btn btn-primary close-modal-btn" onclick="closeModal()">Back to Friends</button>
+                    <div class="modal-actions" style="display: flex; gap: 1rem; margin-top: auto;">
+                        <button class="btn btn-primary adopt-now-btn" style="flex: 1;" onclick="openAdoptionModal()">Adopt Me!</button>
+                        <button class="btn btn-outline" style="flex: 1; border: 1px solid #ddd; border-radius: 50px;" onclick="closeModal()">Back</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,7 +112,7 @@
         </div>
     </div>
 
-    <script src="app.js?v=6.0"></script>
+    <script src="app.js?v=7.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             initApp('index');
