@@ -795,7 +795,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     font-size: 2.5rem;
     color: var(--color-bridge);
-    opacity: 0.05;
+    opacity: 0.15;
     pointer-events: none;
     z-index: 1;
     user-select: none;
