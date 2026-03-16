@@ -286,20 +286,33 @@ function applyFilters(allPets) {
         const children = getVal('filter-children');
 
         const filtered = allPets.filter(pet => {
-            const mSpecies = species === 'all' || (pet.species?.toLowerCase() === species);
-            const mAge = age === 'all' || (pet.age?.toLowerCase().includes(age));
-            const mBreed = breed === '' || pet.breed?.toLowerCase().includes(breed) || pet.species?.toLowerCase().includes(breed);
-            const mSize = size === 'all' || pet.size?.toLowerCase() === size;
-            const mEnergy = energy === 'all' || pet.energy?.toLowerCase() === energy;
-            const mAnim = animals === 'all' || pet.goodWithAnimals?.toLowerCase() === animals;
-            const mChild = children === 'all' || pet.goodWithChildren?.toLowerCase() === children;
+            // Safety: Convert fields to string before operations to prevent crashes on null/undefined
+            const pSpecies = (pet.species || "").toLowerCase();
+            const pAge = (pet.age || "").toLowerCase();
+            const pBreed = (pet.breed || "").toLowerCase();
+            const pSize = (pet.size || "").toLowerCase();
+            const pEnergy = (pet.energy || "").toLowerCase();
+            const pAnim = (pet.goodWithAnimals || "").toLowerCase();
+            const pChild = (pet.goodWithChildren || "").toLowerCase();
+
+            const mSpecies = species === 'all' || pSpecies === species;
+            const mAge = age === 'all' || pAge.includes(age);
+            const mBreed = breed === '' || pBreed.includes(breed) || pSpecies.includes(breed);
+            const mSize = size === 'all' || pSize === size;
+            const mEnergy = energy === 'all' || pEnergy === energy;
+            const mAnim = animals === 'all' || pAnim === animals;
+            const mChild = children === 'all' || pChild === children;
+
             return mSpecies && mAge && mBreed && mSize && mEnergy && mAnim && mChild;
         });
 
         console.log("[App] Filter results:", filtered.length, "/", allPets.length);
         
         const clearBtn = document.getElementById('clear-filters');
-        if (clearBtn) clearBtn.classList.remove('hidden');
+        if (clearBtn) {
+            if (filtered.length < allPets.length) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+        }
         renderPets(filtered);
     } catch (e) {
         console.error("[App] Filter logic crashed:", e);
@@ -399,5 +412,5 @@ async function removePet(id) {
  */
 function setupFilters() {} // Placeholder for index flow
 
+// Final Export
 window.initApp = initApp;
-initApp = initApp;
