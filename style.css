@@ -705,10 +705,12 @@ h1, h2, h3, h4, h5 {
     opacity: 0;
     transition: opacity 0.4s ease;
     padding: 1.5rem;
+    pointer-events: none; /* Prevent blocking clicks when transparent */
 }
 
 .modal-overlay.modal-visible {
     opacity: 1;
+    pointer-events: auto; /* Enable clicks when visible */
 }
 
 .modal-content {

@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'lethbridge_pets_data_v10';
 const ADMIN_PASS = 'lethbridge2026';
-let modalTimeout = null;
+let petModalTimeout = null;
+let adoptModalTimeout = null;
 
 /**
  * Initialize application based on current page
@@ -374,9 +375,9 @@ async function openPetModal(id) {
     const modal = document.getElementById('pet-modal');
     if (!modal) return;
 
-    if (modalTimeout) {
-        clearTimeout(modalTimeout);
-        modalTimeout = null;
+    if (petModalTimeout) {
+        clearTimeout(petModalTimeout);
+        petModalTimeout = null;
     }
 
     // Fill modal data
@@ -437,14 +438,14 @@ async function openPetModal(id) {
 function closeModal() {
     const modal = document.getElementById('pet-modal');
     if (modal) {
-        if (modalTimeout) {
-            clearTimeout(modalTimeout);
+        if (petModalTimeout) {
+            clearTimeout(petModalTimeout);
         }
         modal.classList.remove('modal-visible');
         document.body.style.overflow = ''; // Restore scroll
-        modalTimeout = setTimeout(() => {
+        petModalTimeout = setTimeout(() => {
             modal.style.display = 'none';
-            modalTimeout = null;
+            petModalTimeout = null;
         }, 400);
     }
 }
@@ -456,9 +457,9 @@ function openAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
     if (!modal) return;
 
-    if (modalTimeout) {
-        clearTimeout(modalTimeout);
-        modalTimeout = null;
+    if (adoptModalTimeout) {
+        clearTimeout(adoptModalTimeout);
+        adoptModalTimeout = null;
     }
 
     // Personalize title with current pet name
@@ -487,13 +488,13 @@ function openAdoptionModal() {
 function closeAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
     if (modal) {
-        if (modalTimeout) {
-            clearTimeout(modalTimeout);
+        if (adoptModalTimeout) {
+            clearTimeout(adoptModalTimeout);
         }
         modal.classList.remove('modal-visible');
-        modalTimeout = setTimeout(() => {
+        adoptModalTimeout = setTimeout(() => {
             modal.style.display = 'none';
-            modalTimeout = null;
+            adoptModalTimeout = null;
         }, 400);
     }
 }
