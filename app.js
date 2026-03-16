@@ -2,6 +2,7 @@ const STORAGE_KEY = 'lethbridge_pets_data_v10';
 const ADMIN_PASS = 'lethbridge2026';
 let petModalTimeout = null;
 let adoptModalTimeout = null;
+let currentPetsCache = []; // Global cache for robustness
 
 /**
  * Initialize application based on current page
@@ -10,6 +11,7 @@ function initApp(page) {
     if (page === 'index') {
         setupSidebarToggle();
         loadPets().then(data => {
+            currentPetsCache = data;
             renderPets(data);
             setupFilters(data);
         }).catch(err => {
@@ -54,6 +56,7 @@ function setupAdmin() {
  */
 async function refreshAdminPets() {
     const data = await loadPets();
+    currentPetsCache = data;
     renderAdminPets(data);
 }
 
@@ -290,10 +293,15 @@ function applyFilters(allPets) {
  */
 async function loadPets() {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) {
+        const data = JSON.parse(stored);
+        currentPetsCache = data;
+        return data;
+    }
 
     // If no storage is found, fallback to the DEFAULT_PETS array, avoiding the need for network fetch!
     saveToStorage(DEFAULT_PETS);
+    currentPetsCache = DEFAULT_PETS;
     return DEFAULT_PETS;
 }
 
@@ -338,12 +346,12 @@ function createPetCard(pet, isAdmin) {
     const speciesIcon = pet.species.toLowerCase() === 'cat' ? '🐈' : 
                         pet.species.toLowerCase() === 'dog' ? '🐕' : 
                         pet.species.toLowerCase() === 'bird' ? '🦜' : '🐾';
-    const imgUrl = pet.image || 'https://via.placeholder.com/400x300?text=No+Photo+Available';
+    const imgUrl = pet.image || 'images/placeholder.jpg'; // Changed placeholder to local
 
     petEl.innerHTML = `
         <div class="pet-image-wrapper">
             <span class="pet-badge">${pet.age}</span>
-            <img src="${imgUrl}" alt="${pet.name}" class="pet-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=No+Photo+Available'">
+            <img src="${imgUrl}" alt="${pet.name}" class="pet-image" loading="lazy" onerror="this.src='images/placeholder.jpg'">
         </div>
         <div class="pet-info">
             <div class="pet-header">
@@ -364,23 +372,29 @@ function createPetCard(pet, isAdmin) {
 /**
  * Show Pet Modal
  */
-/**
- * Show Pet Modal
- */
 async function openPetModal(id) {
-    const pets = await loadPets();
-    const pet = pets.find(p => p.id === id);
-    if (!pet) return;
-
-    const modal = document.getElementById('pet-modal');
-    if (!modal) return;
-
+    // 1. Clear any pending close transitions
     if (petModalTimeout) {
         clearTimeout(petModalTimeout);
         petModalTimeout = null;
     }
 
-    // Fill modal data
+    // 2. Find pet data (using cache for instant access)
+    let pet = currentPetsCache.find(p => String(p.id) === String(id));
+    if (!pet) {
+        console.error("Pet not found in cache. Attempting reload...");
+        const freshPets = await loadPets();
+        pet = freshPets.find(p => String(p.id) === String(id));
+        if (!pet) {
+            console.error("Pet still not found after reload:", id);
+            return;
+        }
+    }
+
+    const modal = document.getElementById('pet-modal');
+    if (!modal) return;
+
+    // 3. Robustly fill modal data
     try {
         const nameEl = document.getElementById('modal-pet-name');
         const imgEl = document.getElementById('modal-pet-image');
@@ -391,47 +405,54 @@ async function openPetModal(id) {
 
         if (nameEl) nameEl.textContent = pet.name;
         if (imgEl) {
-            imgEl.src = pet.image || 'https://via.placeholder.com/800x600?text=No+Photo';
+            imgEl.src = pet.image || 'images/placeholder.jpg';
             imgEl.alt = pet.name;
         }
         if (breedEl) breedEl.textContent = pet.breed;
         if (ageEl) ageEl.textContent = pet.age;
         if (sizeEl) sizeEl.textContent = `${pet.size} Size`;
         if (descEl) descEl.textContent = pet.description;
+        
+        // Stats section logic
+        let statsSection = document.getElementById('modal-stats');
+        if (!statsSection) {
+            statsSection = document.createElement('div');
+            statsSection.id = 'modal-stats';
+            statsSection.className = 'modal-stats';
+            const descContainer = document.querySelector('.modal-desc');
+            if (descContainer && descContainer.parentNode) {
+                // Compatible alternative to .before()
+                descContainer.parentNode.insertBefore(statsSection, descContainer);
+            }
+        }
+        if (statsSection) {
+            statsSection.innerHTML = `
+                <div class="stat-item">
+                    <span class="stat-label">Energy</span>
+                    <span class="stat-value">${pet.energy}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Other Pets</span>
+                    <span class="stat-value">${pet.goodWithAnimals === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Children</span>
+                    <span class="stat-value">${pet.goodWithChildren === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
+                </div>
+            `;
+        }
     } catch (e) {
-        console.error("Error updating modal content:", e);
+        console.error("Critical error building pet modal:", e);
     }
 
-    // Add stats section if it doesn't exist
-    let statsSection = document.getElementById('modal-stats');
-    if (!statsSection) {
-        statsSection = document.createElement('div');
-        statsSection.id = 'modal-stats';
-        statsSection.className = 'modal-stats';
-        document.querySelector('.modal-desc').before(statsSection);
-    }
-
-    statsSection.innerHTML = `
-        <div class="stat-item">
-            <span class="stat-label">Energy</span>
-            <span class="stat-value">${pet.energy}</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-label">Other Pets</span>
-            <span class="stat-value">${pet.goodWithAnimals === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-label">Children</span>
-            <span class="stat-value">${pet.goodWithChildren === 'Yes' ? '✅ Friendly' : '🚫 No'}</span>
-        </div>
-    `;
-
-    // Show modal
+    // 4. Force modal visibility
     modal.style.display = 'flex';
-    setTimeout(() => {
+    document.body.style.overflow = 'hidden'; // Lock scroll
+    
+    // Tiny delay to ensure browser paints display:flex before adding class for opacity transition
+    requestAnimationFrame(() => {
         modal.classList.add('modal-visible');
-        document.body.style.overflow = 'hidden'; // Prevent scroll
-    }, 10);
+    });
     
     // Close on overlay click
     modal.onclick = (e) => {
@@ -439,46 +460,53 @@ async function openPetModal(id) {
     };
 }
 
+/**
+ * Close Pet Modal
+ */
 function closeModal() {
     const modal = document.getElementById('pet-modal');
-    if (modal) {
-        if (petModalTimeout) {
-            clearTimeout(petModalTimeout);
-        }
-        modal.classList.remove('modal-visible');
-        document.body.style.overflow = ''; // Restore scroll
-        petModalTimeout = setTimeout(() => {
-            modal.style.display = 'none';
-            petModalTimeout = null;
-        }, 400);
-    }
+    if (!modal) return;
+
+    if (petModalTimeout) clearTimeout(petModalTimeout);
+    
+    modal.classList.remove('modal-visible');
+    document.body.style.overflow = ''; // Restore scroll
+    
+    petModalTimeout = setTimeout(() => {
+        modal.style.display = 'none';
+        petModalTimeout = null;
+    }, 450); // Slightly longer than CSS transition
 }
 
 /**
  * Show Adoption Contact Modal
  */
 function openAdoptionModal() {
-    const modal = document.getElementById('adoption-modal');
-    if (!modal) return;
-
     if (adoptModalTimeout) {
         clearTimeout(adoptModalTimeout);
         adoptModalTimeout = null;
     }
 
-    // Personalize title with current pet name
-    let petName = document.getElementById('modal-pet-name').textContent || 'this friend';
-    petName = petName.trim();
-    
-    const title = document.getElementById('adoption-modal-title');
-    if (title) {
-        title.innerHTML = `Adopt <span class="accent-text">${petName}</span>`;
+    const modal = document.getElementById('adoption-modal');
+    if (!modal) return;
+
+    // Personalize title
+    try {
+        const petName = document.getElementById('modal-pet-name').textContent || 'this friend';
+        const title = document.getElementById('adoption-modal-title');
+        if (title) {
+            title.innerHTML = `Adopt <span class="accent-text">${petName.trim()}</span>`;
+        }
+    } catch (e) {
+        console.error("Error personalizing adoption modal title:", e);
     }
 
     modal.style.display = 'flex';
-    setTimeout(() => {
+    document.body.style.overflow = 'hidden'; // Ensure still locked
+    
+    requestAnimationFrame(() => {
         modal.classList.add('modal-visible');
-    }, 10);
+    });
 
     // Close on overlay click
     modal.onclick = (e) => {
@@ -491,16 +519,18 @@ function openAdoptionModal() {
  */
 function closeAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
-    if (modal) {
-        if (adoptModalTimeout) {
-            clearTimeout(adoptModalTimeout);
-        }
-        modal.classList.remove('modal-visible');
-        adoptModalTimeout = setTimeout(() => {
-            modal.style.display = 'none';
-            adoptModalTimeout = null;
-        }, 400);
-    }
+    if (!modal) return;
+
+    if (adoptModalTimeout) clearTimeout(adoptModalTimeout);
+    
+    modal.classList.remove('modal-visible');
+    // Note: We don't restore overflow here if pet-modal is still open, 
+    // but the system will restore it if both close or user refreshes.
+    
+    adoptModalTimeout = setTimeout(() => {
+        modal.style.display = 'none';
+        adoptModalTimeout = null;
+    }, 450);
 }
 
 /**
@@ -510,8 +540,9 @@ async function removePet(id) {
     if (!confirm('Are you sure you want to remove this pet?')) return;
     
     const pets = await loadPets();
-    const updated = pets.filter(p => p.id !== id);
+    const updated = pets.filter(p => String(p.id) !== String(id));
     saveToStorage(updated);
+    currentPetsCache = updated;
     refreshAdminPets();
 }
 
@@ -523,16 +554,21 @@ function setupForm() {
     const message = document.getElementById('form-message');
     if (!form) return;
 
-    // Remove old listeners if any (though setupForm is called once after login)
+    // Remove old listeners
     const newForm = form.cloneNode(true);
     form.parentNode.replaceChild(newForm, form);
 
     newForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = newForm.querySelector('.btn-submit');
-        submitBtn.disabled = true;
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span>Saving...</span>';
+        if(submitBtn) {
+            submitBtn.disabled = true;
+            var originalText = submitBtn.innerHTML; // Use var for function scope
+            submitBtn.innerHTML = '<span>Saving...</span>';
+        } else {
+            var originalText = 'Add Pet'; // Fallback if button not found
+        }
+
 
         const formData = new FormData(newForm);
         const newPet = {
@@ -553,18 +589,33 @@ function setupForm() {
             const currentPets = await loadPets();
             currentPets.push(newPet);
             saveToStorage(currentPets);
+            currentPetsCache = currentPets;
             newForm.reset();
-            message.className = 'form-message form-message-success';
-            message.style.display = 'block';
-            setTimeout(() => { message.style.display = 'none'; }, 3000);
+            if(message) {
+                message.className = 'form-message form-message-success';
+                message.style.display = 'block';
+                setTimeout(() => { if(message) message.style.display = 'none'; }, 3000);
+            }
             refreshAdminPets();
         } catch (error) {
             console.error("Failed to add pet:", error);
-            message.textContent = '❌ An error occurred while saving.';
-            message.style.display = 'block';
+            if(message) {
+                message.textContent = '❌ An error occurred while saving.';
+                message.style.display = 'block';
+            }
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
+            if(submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         }
     });
 }
+
+// Explicitly bind to window for global access regardless of context
+window.initApp = initApp;
+window.openPetModal = openPetModal;
+window.closeModal = closeModal;
+window.openAdoptionModal = openAdoptionModal;
+window.closeAdoptionModal = closeAdoptionModal;
+window.removePet = removePet;
