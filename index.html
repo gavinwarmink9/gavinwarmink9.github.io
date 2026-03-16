@@ -142,7 +142,7 @@
     <!-- Pet Detail Modal -->
     <div id="pet-modal" class="modal-overlay">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <button class="modal-close">&times;</button>
             <div class="modal-body">
                 <div class="modal-image-container">
                     <img id="modal-pet-image" src="" alt="" class="modal-image">
@@ -159,8 +159,8 @@
                         <p id="modal-pet-desc"></p>
                     </div>
                     <div class="modal-actions">
-                        <button class="btn btn-primary adopt-now-btn" onclick="openAdoptionModal()">Adopt Me!</button>
-                        <button class="btn btn-outline" onclick="closeModal()">Back</button>
+                        <button class="btn btn-primary adopt-now-btn">Adopt Me!</button>
+                        <button class="btn btn-outline btn-close-modal">Back</button>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
     <!-- Adoption Contact Modal -->
     <div id="adoption-modal" class="modal-overlay">
         <div class="modal-content contact-modal">
-            <button class="modal-close" onclick="closeAdoptionModal()">&times;</button>
+            <button class="modal-close">&times;</button>
             <div class="modal-info contact-info">
                 <h2 id="adoption-modal-title">Adopt This <span class="accent-text">Friend</span></h2>
                 <div class="contact-details">
@@ -188,12 +188,12 @@
                         <p><a href="http://lethbridgehumanesociety.com/" target="_blank">lethbridgehumanesociety.com</a></p>
                     </div>
                 </div>
-                <button class="btn btn-primary" onclick="closeAdoptionModal()">Got it!</button>
+                <button class="btn btn-primary btn-close-modal">Got it!</button>
             </div>
         </div>
     </div>
 
-    <script src="app.js?v=20.0"></script>
+    <script src="app.js?v=30.0"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             initApp('index');
