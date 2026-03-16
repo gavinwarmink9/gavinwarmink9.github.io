@@ -381,21 +381,25 @@ async function openPetModal(id) {
     }
 
     // Fill modal data
-    document.getElementById('modal-pet-name').textContent = pet.name;
-    document.getElementById('modal-pet-image').src = pet.image || 'https://via.placeholder.com/800x600?text=No+Photo';
-    document.getElementById('modal-pet-image').alt = pet.name;
-    document.getElementById('modal-pet-breed').textContent = pet.breed;
-    document.getElementById('modal-pet-age').textContent = pet.age;
-    document.getElementById('modal-pet-desc').textContent = pet.description;
+    try {
+        const nameEl = document.getElementById('modal-pet-name');
+        const imgEl = document.getElementById('modal-pet-image');
+        const breedEl = document.getElementById('modal-pet-breed');
+        const ageEl = document.getElementById('modal-pet-age');
+        const sizeEl = document.getElementById('modal-pet-size');
+        const descEl = document.getElementById('modal-pet-desc');
 
-    // Additional info for modal
-    const metaContainer = document.querySelector('.modal-meta');
-    if (metaContainer) {
-        metaContainer.innerHTML = `
-            <span>${pet.breed}</span> &nbsp;|&nbsp; 
-            <span>${pet.age}</span> &nbsp;|&nbsp; 
-            <span>${pet.size} Size</span>
-        `;
+        if (nameEl) nameEl.textContent = pet.name;
+        if (imgEl) {
+            imgEl.src = pet.image || 'https://via.placeholder.com/800x600?text=No+Photo';
+            imgEl.alt = pet.name;
+        }
+        if (breedEl) breedEl.textContent = pet.breed;
+        if (ageEl) ageEl.textContent = pet.age;
+        if (sizeEl) sizeEl.textContent = `${pet.size} Size`;
+        if (descEl) descEl.textContent = pet.description;
+    } catch (e) {
+        console.error("Error updating modal content:", e);
     }
 
     // Add stats section if it doesn't exist
