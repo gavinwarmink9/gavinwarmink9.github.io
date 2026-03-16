@@ -277,7 +277,7 @@ function applyFilters(allPets) {
     try {
         const getVal = (id) => {
             const el = document.getElementById(id);
-            if (!el) { console.warn("[Filter] Element missing:", id); return 'all'; }
+            if (!el) return 'all';
             return el.value.toLowerCase().trim();
         };
         
@@ -290,8 +290,6 @@ function applyFilters(allPets) {
             animals: getVal('filter-animals'),
             children: getVal('filter-children')
         };
-
-        console.log("[Filter Debug] Active Criteria:", criteria);
 
         const filtered = allPets.filter(pet => {
             const data = {
@@ -314,12 +312,9 @@ function applyFilters(allPets) {
                 children: criteria.children === 'all' || data.children === criteria.children
             };
 
-            const isMatch = Object.values(matches).every(v => v === true);
-            return isMatch;
+            return Object.values(matches).every(v => v === true);
         });
 
-        console.log(`[App] Results: ${filtered.length} / ${allPets.length}`);
-        
         const clearBtn = document.getElementById('clear-filters');
         if (clearBtn) {
             const hasActiveFilters = criteria.species !== 'all' || criteria.age !== 'all' || 
@@ -331,12 +326,11 @@ function applyFilters(allPets) {
         }
         renderPets(filtered);
     } catch (e) {
-        console.error("[App] Filter Logic CRASHED:", e);
+        console.error("[App] Filter Logic Error:", e);
     }
 }
 
 function handleClearFilters() {
-    console.log("[App] Clearing all filters...");
     const breedInput = document.getElementById('filter-breed');
     if (breedInput) breedInput.value = '';
     
