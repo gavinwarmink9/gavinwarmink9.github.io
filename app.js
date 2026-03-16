@@ -275,66 +275,74 @@ function closeAdoptionModal() {
  */
 function applyFilters(allPets) {
     try {
-        const getVal = (id) => document.getElementById(id)?.value?.toLowerCase() || 'all';
+        const getVal = (id) => {
+            const el = document.getElementById(id);
+            if (!el) { console.warn("[Filter] Element missing:", id); return 'all'; }
+            return el.value.toLowerCase().trim();
+        };
         
-        const species = getVal('filter-species');
-        const age = getVal('filter-age');
-        const breed = document.getElementById('filter-breed')?.value?.toLowerCase() || '';
-        const size = getVal('filter-size');
-        const energy = getVal('filter-energy');
-        const animals = getVal('filter-animals');
-        const children = getVal('filter-children');
+        const criteria = {
+            species: getVal('filter-species'),
+            age: getVal('filter-age'),
+            breed: document.getElementById('filter-breed')?.value?.toLowerCase()?.trim() || '',
+            size: getVal('filter-size'),
+            energy: getVal('filter-energy'),
+            animals: getVal('filter-animals'),
+            children: getVal('filter-children')
+        };
 
-        console.log("[Filter Debug] Criteria:", { species, age, breed, size, energy, animals, children });
+        console.log("[Filter Debug] Active Criteria:", criteria);
 
-        const filtered = allPets.filter((pet, index) => {
-            const pSpecies = (pet.species || "").toLowerCase();
-            const pAge = (pet.age || "").toLowerCase();
-            const pBreed = (pet.breed || "").toLowerCase();
-            const pSize = (pet.size || "").toLowerCase();
-            const pEnergy = (pet.energy || "").toLowerCase();
-            const pAnim = (pet.goodWithAnimals || "").toLowerCase();
-            const pChild = (pet.goodWithChildren || "").toLowerCase();
+        const filtered = allPets.filter(pet => {
+            const data = {
+                species: (pet.species || "").toLowerCase().trim(),
+                age: (pet.age || "").toLowerCase().trim(),
+                breed: (pet.breed || "").toLowerCase().trim(),
+                size: (pet.size || "").toLowerCase().trim(),
+                energy: (pet.energy || "").toLowerCase().trim(),
+                animals: (pet.goodWithAnimals || "").toLowerCase().trim(),
+                children: (pet.goodWithChildren || "").toLowerCase().trim()
+            };
 
-            const mSpecies = species === 'all' || pSpecies === species;
-            const mAge = age === 'all' || pAge.includes(age);
-            const mBreed = breed === '' || pBreed.includes(breed) || pSpecies.includes(breed);
-            const mSize = size === 'all' || pSize === size;
-            const mEnergy = energy === 'all' || pEnergy === energy;
-            const mAnim = animals === 'all' || pAnim === animals;
-            const mChild = children === 'all' || pChild === children;
+            const matches = {
+                species: criteria.species === 'all' || data.species === criteria.species,
+                age: criteria.age === 'all' || data.age.includes(criteria.age) || criteria.age.includes(data.age),
+                breed: criteria.breed === '' || data.breed.includes(criteria.breed) || data.species.includes(criteria.breed),
+                size: criteria.size === 'all' || data.size === criteria.size,
+                energy: criteria.energy === 'all' || data.energy === criteria.energy,
+                animals: criteria.animals === 'all' || data.animals === criteria.animals,
+                children: criteria.children === 'all' || data.children === criteria.children
+            };
 
-            const isMatch = mSpecies && mAge && mBreed && mSize && mEnergy && mAnim && mChild;
-            
-            if (index === 0) { // Log first pet's match details for debug
-                console.log(`[Filter Debug] Pet ${pet.name} match stats:`, { 
-                    isMatch,
-                    mSpecies, mAge, mBreed, mSize, mEnergy, mAnim, mChild,
-                    data: { pSpecies, pAge, pSize, pEnergy, pAnim, pChild }
-                });
-            }
-
+            const isMatch = Object.values(matches).every(v => v === true);
             return isMatch;
         });
 
-        console.log("[App] Filter results:", filtered.length, "/", allPets.length);
+        console.log(`[App] Results: ${filtered.length} / ${allPets.length}`);
         
         const clearBtn = document.getElementById('clear-filters');
         if (clearBtn) {
-            if (filtered.length < allPets.length) clearBtn.classList.remove('hidden');
+            const hasActiveFilters = criteria.species !== 'all' || criteria.age !== 'all' || 
+                                     criteria.breed !== '' || criteria.size !== 'all' || 
+                                     criteria.energy !== 'all' || criteria.animals !== 'all' || 
+                                     criteria.children !== 'all';
+            if (hasActiveFilters) clearBtn.classList.remove('hidden');
             else clearBtn.classList.add('hidden');
         }
         renderPets(filtered);
     } catch (e) {
-        console.error("[App] Filter logic crashed:", e);
+        console.error("[App] Filter Logic CRASHED:", e);
     }
 }
 
 function handleClearFilters() {
-    const selects = document.querySelectorAll('.filter-group select');
-    const search = document.getElementById('filter-breed');
-    selects.forEach(s => s.value = 'all');
-    if (search) search.value = '';
+    console.log("[App] Clearing all filters...");
+    const breedInput = document.getElementById('filter-breed');
+    if (breedInput) breedInput.value = '';
+    
+    const selects = document.querySelectorAll('.filters-sidebar select');
+    selects.forEach(s => { s.value = 'all'; });
+    
     document.getElementById('clear-filters')?.classList.add('hidden');
     renderPets(currentPetsCache);
 }
