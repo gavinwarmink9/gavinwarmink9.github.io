@@ -340,6 +340,7 @@ function handleClearFilters() {
 function applyFilters(allPets) {
     const get = (id) => document.getElementById(id)?.value?.toLowerCase() || 'all';
     
+    const species = get('filter-species');
     const age = get('filter-age');
     const breed = document.getElementById('filter-breed')?.value?.toLowerCase() || '';
     const size = get('filter-size');
@@ -348,13 +349,14 @@ function applyFilters(allPets) {
     const children = get('filter-children');
 
     const filtered = allPets.filter(pet => {
+        const mSpecies = species === 'all' || pet.species?.toLowerCase() === species;
         const mAge = age === 'all' || (pet.age?.toLowerCase().includes(age));
         const mBreed = breed === '' || pet.breed?.toLowerCase().includes(breed) || pet.species?.toLowerCase().includes(breed);
         const mSize = size === 'all' || pet.size?.toLowerCase() === size;
         const mEnergy = energy === 'all' || pet.energy?.toLowerCase() === energy;
         const mAnim = animals === 'all' || pet.goodWithAnimals?.toLowerCase() === animals;
         const mChild = children === 'all' || pet.goodWithChildren?.toLowerCase() === children;
-        return mAge && mBreed && mSize && mEnergy && mAnim && mChild;
+        return mSpecies && mAge && mBreed && mSize && mEnergy && mAnim && mChild;
     });
 
     const clearBtn = document.getElementById('clear-filters');
