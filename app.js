@@ -32,6 +32,7 @@ async function initApp(page) {
             const data = await loadPets();
             console.log("[App] Loaded", data.length, "pets.");
             currentPetsCache = data;
+            window.currentPetsCache = data;
             renderPets(data);
             setupFilters(data);
         } catch (err) {
@@ -274,7 +275,6 @@ function closeAdoptionModal() {
  */
 function applyFilters(allPets) {
     try {
-        console.log("[App] Applying filters to", allPets.length, "pets...");
         const getVal = (id) => document.getElementById(id)?.value?.toLowerCase() || 'all';
         
         const species = getVal('filter-species');
@@ -285,8 +285,9 @@ function applyFilters(allPets) {
         const animals = getVal('filter-animals');
         const children = getVal('filter-children');
 
-        const filtered = allPets.filter(pet => {
-            // Safety: Convert fields to string before operations to prevent crashes on null/undefined
+        console.log("[Filter Debug] Criteria:", { species, age, breed, size, energy, animals, children });
+
+        const filtered = allPets.filter((pet, index) => {
             const pSpecies = (pet.species || "").toLowerCase();
             const pAge = (pet.age || "").toLowerCase();
             const pBreed = (pet.breed || "").toLowerCase();
@@ -303,7 +304,17 @@ function applyFilters(allPets) {
             const mAnim = animals === 'all' || pAnim === animals;
             const mChild = children === 'all' || pChild === children;
 
-            return mSpecies && mAge && mBreed && mSize && mEnergy && mAnim && mChild;
+            const isMatch = mSpecies && mAge && mBreed && mSize && mEnergy && mAnim && mChild;
+            
+            if (index === 0) { // Log first pet's match details for debug
+                console.log(`[Filter Debug] Pet ${pet.name} match stats:`, { 
+                    isMatch,
+                    mSpecies, mAge, mBreed, mSize, mEnergy, mAnim, mChild,
+                    data: { pSpecies, pAge, pSize, pEnergy, pAnim, pChild }
+                });
+            }
+
+            return isMatch;
         });
 
         console.log("[App] Filter results:", filtered.length, "/", allPets.length);
