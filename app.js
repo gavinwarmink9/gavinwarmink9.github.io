@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'lethbridge_pets_data_v10';
 const ADMIN_PASS = 'lethbridge2026';
+let modalTimeout = null;
 
 /**
  * Initialize application based on current page
@@ -373,6 +374,11 @@ async function openPetModal(id) {
     const modal = document.getElementById('pet-modal');
     if (!modal) return;
 
+    if (modalTimeout) {
+        clearTimeout(modalTimeout);
+        modalTimeout = null;
+    }
+
     // Fill modal data
     document.getElementById('modal-pet-name').textContent = pet.name;
     document.getElementById('modal-pet-image').src = pet.image || 'https://via.placeholder.com/800x600?text=No+Photo';
@@ -428,16 +434,17 @@ async function openPetModal(id) {
     };
 }
 
-/**
- * Close Pet Modal
- */
 function closeModal() {
     const modal = document.getElementById('pet-modal');
     if (modal) {
+        if (modalTimeout) {
+            clearTimeout(modalTimeout);
+        }
         modal.classList.remove('modal-visible');
         document.body.style.overflow = ''; // Restore scroll
-        setTimeout(() => {
+        modalTimeout = setTimeout(() => {
             modal.style.display = 'none';
+            modalTimeout = null;
         }, 400);
     }
 }
@@ -448,6 +455,11 @@ function closeModal() {
 function openAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
     if (!modal) return;
+
+    if (modalTimeout) {
+        clearTimeout(modalTimeout);
+        modalTimeout = null;
+    }
 
     // Personalize title with current pet name
     let petName = document.getElementById('modal-pet-name').textContent || 'this friend';
@@ -475,9 +487,13 @@ function openAdoptionModal() {
 function closeAdoptionModal() {
     const modal = document.getElementById('adoption-modal');
     if (modal) {
+        if (modalTimeout) {
+            clearTimeout(modalTimeout);
+        }
         modal.classList.remove('modal-visible');
-        setTimeout(() => {
+        modalTimeout = setTimeout(() => {
             modal.style.display = 'none';
+            modalTimeout = null;
         }, 400);
     }
 }
